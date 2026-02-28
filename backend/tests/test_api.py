@@ -170,10 +170,8 @@ class TestCollections:
         # Delete collection
         client.delete(f"/collections/{collection_id}")
         
-        # The prompt still exists but has invalid collection_id
-        # This is Bug #4 - should be handled properly
+        # After deletion, prompts that previously belonged to the collection should
+        # remain but have `collection_id` set to None (we nullify references).
         prompts = client.get("/prompts").json()["prompts"]
         if prompts:
-            # Prompt exists with orphaned collection_id
-            assert prompts[0]["collection_id"] == collection_id
-            # After fix, collection_id should be None or prompt should be deleted
+            assert prompts[0]["collection_id"] is None

@@ -40,6 +40,17 @@ class Prompt(PromptBase):
         from_attributes = True
 
 
+class PromptPatch(BaseModel):
+    """Model for PATCH updates to a Prompt where all fields are optional.
+
+    Only fields provided will be updated by the API endpoint.
+    """
+    title: Optional[str] = Field(None, min_length=1, max_length=200)
+    content: Optional[str] = Field(None, min_length=1)
+    description: Optional[str] = Field(None, max_length=500)
+    collection_id: Optional[Optional[str]] = None
+
+
 # ============== Collection Models ==============
 
 class CollectionBase(BaseModel):
